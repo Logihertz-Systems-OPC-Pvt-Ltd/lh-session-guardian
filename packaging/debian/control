@@ -1,0 +1,9 @@
+Package: lh-session-guardian
+Version: 0.1.0
+Section: utils
+Priority: optional
+Architecture: all
+Maintainer: Sameer Tawade <ops@logihertz.com>
+Homepage: https://www.logihertz.com
+Description: lh-session - Session Cryptographic Strength & Expiration Bound
+ Web authentication and session security auditor evaluating JWT signing algorithms (alg:none / weak HMAC), token expiration TTLs, OAuth2 PKCE flows, and HTTP cookie (Secure/HttpOnly/SameSite) flags.

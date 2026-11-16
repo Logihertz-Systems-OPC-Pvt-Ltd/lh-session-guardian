@@ -100,7 +100,7 @@ The detection engine evaluates configurations, manifests, firmware, protocols, a
 | `LH-SES-007` | `HIGH` | `10` | `CWE-330` | PRNG unseeded or failing continuous statistical health tests | Incorporate NIST SP 800-90B continuous entropy health testing |
 | `LH-SES-008` | `MEDIUM` | `4` | `CWE-285` | Coarse-grained permissions allowing lateral privilege escalation | Implement fine-grained RBAC and granular authorization checks |
 | `LH-SES-009` | `MEDIUM` | `4` | `CWE-400` | Missing rate limits or burst quotas on expensive operations | Configure token-bucket throttling and bounded allocation caps |
-| `LH-SES-010` | `LOW` | `1` | `CWE-778` | Security events not recorded to a tamper-evident audit log | Enable structured hash-chained audit logging to /var/log/struct-os.log |
+| `LH-SES-010` | `LOW` | `1` | `CWE-778` | Security events not recorded to a tamper-evident audit log | Enable structured hash-chained audit logging to /var/log/lh-session-guardian.log |
 
 ---
 
@@ -143,23 +143,36 @@ Exported SARIF documents validate against the official OASIS schema (`sarif-sche
 
 ---
 
-## Section 6: Future Development Roadmap & Extension Architecture
+## 6. Standalone Future Development Roadmap (`v0.2.0` — `v0.5.0`)
 
-### Milestone v0.2.0: Modular Extensions & Telemetry Streaming
-- **Policy Pack Plugin Hooks**: Enable external declarative YAML/JSON rule-pack loading without source modification.
-- **Hardware Telemetry Streaming**: Real-time integration with SPI, I2C, UART, CAN, and eBPF kernel event rings.
-- **Configurable Severity Weights**: Support custom industrial profiles (e.g. Nuclear/Medical safety vs. Commercial IoT).
+`lh-session-guardian` is developed as an independent, standalone open-source project. The following roadmap defines the planned architectural, algorithmic, and protocol enhancements for upcoming point releases of `lh-session-guardian`:
 
-### Milestone v0.5.0: Native STRUCT OS Integration & Daemonless IPC
-- **STRUCT OS Security Bus**: Native zero-copy shared memory integration with the STRUCT OS Security Command Center.
-- **Automated Remediation Synthesis**: Direct IPC bridge with `lh-auto-remediation` for automatic synthesizing of verified unified diffs.
-- **Hardware Root-of-Trust Attestation**: Cryptographic sealing of telemetry reports via TPM 2.0 PCR-bound quotes.
+| Target Release | Milestone Focus | Planned Technical Deliverables for `lh-session-guardian` |
+|---|---|---|
+| **`v0.2.0`** | Parser & Protocol Expansion | Add PASETO (v4.local / v4.public) token verification, OAuth 2.1 / OIDC Discovery configuration auditing, and SAML 2.0 assertion checks. |
+| **`v0.3.0`** | Deep Algorithmic & Stateful Analysis | Implement JWK Set (jwks.json) key-rotation hygiene verification, RSA/ECDSA curve strength validation, and PKCE (S256) flow enforcement. |
+| **`v0.4.0`** | Remediation, Synthesis & Format Interop | Add high-speed HTTP Archive (.har) session trace analysis detecting token fixation, missing __Host- cookie prefixes, and excessive refresh-token TTLs. |
+| **`v0.5.0`** | High-Throughput Performance & Formal Verification | Implement DPoP (RFC 9449 Demonstrating Proof-of-Possession) and mTLS client-bound token (cnf claim) verification. |
 
-### Milestone v1.0.0: High-Assurance Certification & Hardening
-- **FIPS 140-3 Validation**: Cryptographic module boundary verification and NIST CAVP compliance testing.
-- **Common Criteria EAL4+ Alignment**: Formal verification of deterministic security targets and functional invariants.
-- **Automotive & Industrial Compliance**: Formal baseline compliance with ISO 21434 (Automotive Cybersecurity) and IEC 62443 (Industrial Automation & Control Systems).
-- **Signed Binary Attestation**: In-toto attestation and Cosign cryptographic signing across all release artifacts.
+### 6.1 `v0.2.0` — Parser & Protocol Expansion
+- **Format & Protocol Ingestion**: Add PASETO (v4.local / v4.public) token verification, OAuth 2.1 / OIDC Discovery configuration auditing, and SAML 2.0 assertion checks.
+- **Zero-Dependency Architecture**: Pure standard library implementation with deterministic parsing guarantees and strict error handling.
+- **Verification & Telemetry**: Regression test suites verifying schema edge-cases, malformed payload rejections, and SARIF v2.1.0 output fidelity.
+
+### 6.2 `v0.3.0` — Deep Algorithmic & Stateful Analysis
+- **Algorithmic Core**: Implement JWK Set (jwks.json) key-rotation hygiene verification, RSA/ECDSA curve strength validation, and PKCE (S256) flow enforcement.
+- **State Machine & Analysis Engine**: High-fidelity state tracking, cycle detection, and invariant checking with minimal computational overhead.
+- **Differential & Regression Verification**: Comprehensive test harnesses covering stateful transitions, edge conditions, and mathematical boundary constraints.
+
+### 6.3 `v0.4.0` — Remediation, Synthesis & Format Interoperability
+- **Synthesis & Interoperability**: Add high-speed HTTP Archive (.har) session trace analysis detecting token fixation, missing __Host- cookie prefixes, and excessive refresh-token TTLs.
+- **Automated Remediation Workflows**: Idempotent generation of verified configuration patches, policy rules, and standardized cross-format exports.
+- **Contract & Artifact Validation**: Cryptographic baseline verification and end-to-end integration testing for synthesized deliverables.
+
+### 6.4 `v0.5.0` — High-Throughput Performance & Formal Verification
+- **High-Throughput Optimization**: Implement DPoP (RFC 9449 Demonstrating Proof-of-Possession) and mTLS client-bound token (cnf claim) verification.
+- **Hardware & Kernel Acceleration**: Vectorized SIMD/eBPF/sub-millisecond streaming execution with bounded memory allocation.
+- **Formal Verification & Assurance**: Mathematical proof of invariant preservation, false-positive calibration, and high-assurance certification baselines.
 
 ---
 
